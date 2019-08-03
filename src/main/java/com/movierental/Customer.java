@@ -1,14 +1,12 @@
 package com.movierental;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Customer {
   private String name;
-  private List<Rental> rentals = new ArrayList<>();
+  private Rentals rentals;
 
   public Customer(String name) {
     this.name = name;
+    this.rentals = new Rentals();
   }
 
   public void addRental(Rental arg) {
@@ -20,47 +18,11 @@ public class Customer {
   }
 
   public String statement() {
-    String result = "Rental Record for " + getName() + "\n";
-    for (Rental each : rentals) {
-      result += "\t" + each.getMovie().getTitle() + "\t" +
-          each.amount() + "\n";
-    }
-
-    result += "Amount owed is " + totalAmount() + "\n";
-    result += "You earned " + frequentRenterPoints() + " frequent renter points";
-    return result;
+    return new TextStatement(name, rentals).statement();
   }
 
   public String htmlStatement() {
-    String result = "<h3>Rental Record for " + getName() + "</h3>";
-    result += "<p>";
-    for (Rental each : rentals) {
-      result += each.getMovie().getTitle() + ": <b>" +
-              each.amount() + "</b><br>";
-    }
-    result += "</p>";
-
-    result += "<p>Amount owed is <b>" + totalAmount() + "</b></p>";
-    result += "<p>You earned <b>" + frequentRenterPoints()
-            + "</b> frequent renter points</p>";
-    return result;
-  }
-
-  private int frequentRenterPoints() {
-    int frequentRenterPoints = 0;
-    for (Rental each : rentals) {
-      frequentRenterPoints += each.frequentRenterPoints();
-    }
-    return frequentRenterPoints;
-  }
-
-  private double totalAmount() {
-    double totalAmount = 0;
-    for (Rental each : rentals) {
-      double thisAmount = each.amount();
-      totalAmount += thisAmount;
-    }
-    return totalAmount;
+    return new HTMLStatement(name, rentals).statement();
   }
 
 }
