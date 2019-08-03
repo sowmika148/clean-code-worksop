@@ -23,12 +23,26 @@ public class Customer {
     String result = "Rental Record for " + getName() + "\n";
     for (Rental each : rentals) {
       result += "\t" + each.getMovie().getTitle() + "\t" +
-          String.valueOf(each.amount()) + "\n";
+          each.amount() + "\n";
     }
 
-    result += "Amount owed is " + String.valueOf(totalAmount()) + "\n";
-    result += "You earned " + String.valueOf(frequentRenterPoints())
-        + " frequent renter points";
+    result += "Amount owed is " + totalAmount() + "\n";
+    result += "You earned " + frequentRenterPoints() + " frequent renter points";
+    return result;
+  }
+
+  public String htmlStatement() {
+    String result = "<h3>Rental Record for " + getName() + "</h3>";
+    result += "<p>";
+    for (Rental each : rentals) {
+      result += each.getMovie().getTitle() + ": <b>" +
+              each.amount() + "</b><br>";
+    }
+    result += "</p>";
+
+    result += "<p>Amount owed is <b>" + totalAmount() + "</b></p>";
+    result += "<p>You earned <b>" + frequentRenterPoints()
+            + "</b> frequent renter points</p>";
     return result;
   }
 
